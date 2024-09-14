@@ -1,0 +1,139 @@
+basePath: /api/v1
+definitions:
+  models.CreateUser:
+    properties:
+      nickname:
+        maxLength: 100
+        minLength: 8
+        type: string
+      passwd:
+        type: string
+    required:
+    - nickname
+    - passwd
+    type: object
+  models.GetPosts:
+    properties:
+      limit:
+        maximum: 100
+        minimum: 1
+        type: integer
+      offset:
+        minimum: 0
+        type: integer
+      userId:
+        type: integer
+    required:
+    - userId
+    type: object
+  models.Post:
+    properties:
+      content:
+        maxLength: 140
+        minLength: 1
+        type: string
+      userId:
+        type: integer
+    required:
+    - content
+    - userId
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  license:
+    name: Apache 2.0
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /post/create:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Post information
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/models.Post'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Post'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Creates a new Post
+      tags:
+      - Post
+  /post/posts:
+    post:
+      consumes:
+      - application/json
+      description: Get posts from the system
+      parameters:
+      - description: describe your GetPosts object
+        in: body
+        name: getPosts
+        schema:
+          $ref: '#/definitions/models.GetPosts'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/models.Post'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Get posts
+      tags:
+      - posts
+  /user/register:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the given information.
+      parameters:
+      - description: User info
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateUser'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.CreateUser'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Create a new user
+      tags:
+      - Users
+swagger: "2.0"

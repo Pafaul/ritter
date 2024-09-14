@@ -1,0 +1,9 @@
+version: "2"
+sql:
+    - engine: sqlite
+      queries: "./sqlc/queries.sql"
+      schema: "./sqlc/migrations"
+      gen:
+          go:
+              package: "ritter_db"
+              out: "ritter_db"
